@@ -25,4 +25,5 @@ jobs:
         python-version: 3.7 #install the python needed
     - name: execute py script # run the run.py to get the latest data
       run: |
+        pip install obspy
         python script.py
