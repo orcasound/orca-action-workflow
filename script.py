@@ -12,7 +12,11 @@ class MyHTMLParser(HTMLParser):
 datestr = datetime.today().strftime('%Y/%m/%d')
 url='https://rawdata.oceanobservatories.org/files/RS01SBPS/PC01A/08-HYDBBA103/{}'.format(datestr)
 r=requests.get(url)
-print(url)
+r=requests.get(url)
+if r == 'Response [404]':
+  datestr = (datetime.today - timedelta(days=1)).strftime('%Y/%m/%d')
+  url='https://rawdata.oceanobservatories.org/files/RS01SBPS/PC01A/08-HYDBBA103/{}'.format(datestr)
+  r=requests.get(url)
 filelist = []
 parser = MyHTMLParser()
 parser.feed(str(r.content))
