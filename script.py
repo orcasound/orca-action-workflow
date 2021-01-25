@@ -19,5 +19,7 @@ filepath = filelist[-1]
 full_url = f'{url}/{filepath}'
 # reading from url
 st = obspy.read(full_url)
-st.spectrogram(outfile='spectrogram.png')
+st.filter('bandpass', freqmin=2000, freqmax=6000.0)
+st.decimate(factor=10)
+st.spectrogram(outfile='spectrogram.png', dbscale=True, wlen = 0.1)
 
