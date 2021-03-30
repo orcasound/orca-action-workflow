@@ -1,4 +1,4 @@
-# An experiment of github action cron job pinging the OOI raw archive about every 30 minutes (github cron actions do not work on a shorter interval).
+An experiment of github action cron job pinging the OOI raw archive about every 30 minutes (github cron actions do not work on a shorter interval).
 
 One can add additional preprocessing of the files, for example, calculate the power spectrum. This kind of periodic pinging can be used to detect loud events.
 
