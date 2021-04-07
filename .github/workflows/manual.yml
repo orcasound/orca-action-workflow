@@ -10,20 +10,29 @@ on:
         description: 'Manual run'
 
 jobs:
-  build:
+  process:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
         # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.7 # TODO: why stay on 3.7, update to 3.8-3.9
+
     - name: Install dependencies # TODO: add caching
       run: |
         pip install wheel
         pip install obspy
+
     - name: Execute py script
       run: |
         python script.py
+
+    - name: Upload spectrogram
+      uses: actions/upload-artifact@v2
+      with:
+        name: Spectrogram
+        path: spectrogram.png
