@@ -23,7 +23,7 @@ filelist = []
 parser = MyHTMLParser()
 parser.feed(str(page.content))
 
-for filename in filelist[-10:]:
+for filename in filelist:
     full_url = f'{url}/{filename}'
     st = obspy.read(full_url)
     st.filter('bandpass', freqmin=2000, freqmax=6000.0)
