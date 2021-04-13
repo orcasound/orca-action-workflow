@@ -24,10 +24,12 @@ parser = MyHTMLParser()
 parser.feed(str(page.content))
 
 for filename in filelist[-10:]:
-    recording_time = re.search(r'OO-HYVM2--YDH-(.*?)\.mseed', filename).group(1)
     full_url = f'{url}/{filename}'
     st = obspy.read(full_url)
     st.filter('bandpass', freqmin=2000, freqmax=6000.0)
     st.decimate(factor=10)
+    recording_time = re.search(r'OO-HYVM2--YDH-(.*?)\.mseed', filename).group(1)
+    # upload-artifact doesn't support ':' in filepaths!
+    recording_time = recording_time.replace(':', '-')
     st.spectrogram(outfile=f'{recording_time}_spectrogram.png', dbscale=True, wlen = 0.1)
     print('Finished ' + filename)
