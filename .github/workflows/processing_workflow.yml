@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   # Run workflow every 5 minutes
   schedule:
-  - cron: '*/5 * * * *'
+  - cron: '0 12 * * *'
 
 jobs:
   process:
@@ -27,8 +27,9 @@ jobs:
       run: |
         python script.py
 
-    - name: Upload spectrogram
+    - name: Upload spectrograms
       uses: actions/upload-artifact@v2
       with:
-        name: Spectrogram
-        path: spectrogram.png
+        name: Spectrograms
+        path: |
+          *.png
