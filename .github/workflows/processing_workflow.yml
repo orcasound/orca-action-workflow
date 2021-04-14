@@ -20,8 +20,9 @@ jobs:
 
     - name: Install dependencies # TODO: add caching
       run: |
-        pip install wheel
-        pip install obspy
+        python -m pip install -U pip
+        python -m pip install -U setuptools wheel
+        python -m pip install obspy
 
     - name: Execute Python script
       run: |
