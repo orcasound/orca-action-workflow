@@ -3,7 +3,7 @@ name: Processing workflow
 on:
   # To run manually
   workflow_dispatch:
-  # Run workflow every 5 minutes
+  # Run workflow at 12:00 UTC every day
   schedule:
   - cron: '0 12 * * *'
 
@@ -23,7 +23,7 @@ jobs:
         pip install wheel
         pip install obspy
 
-    - name: Execute py script
+    - name: Execute Python script
       run: |
         python script.py
 
