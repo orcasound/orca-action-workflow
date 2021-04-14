@@ -16,7 +16,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.7 # TODO: why stay on 3.7, update to 3.8-3.9
+        python-version: '3.x'
 
     - name: Install dependencies # TODO: add caching
       run: |
