@@ -3,6 +3,7 @@ import requests
 from html.parser import HTMLParser
 import datetime
 import re
+import matplotlib.pyplot as plt
 
 # extracting link for last file today
 class MyHTMLParser(HTMLParser):
@@ -10,7 +11,7 @@ class MyHTMLParser(HTMLParser):
         if 'HYVM2' in data:
             filelist.append(data)
 
-yesterday = datetime.datetime.today() - datetime.timedelta(days=2)
+yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
 datestr = yesterday.strftime('%Y/%m/%d')
 node = 'PC01A'
 url = f'https://rawdata.oceanobservatories.org/files/RS01SBPS/{node}/08-HYDBBA103/{datestr}'
@@ -31,5 +32,10 @@ for filename in filelist:
     recording_time = re.search(r'OO-HYVM2--YDH-(.*?)\.mseed', filename).group(1)
     # upload-artifact doesn't support ':' in filepaths!
     recording_time = recording_time.replace(':', '-')
-    st.spectrogram(outfile=f'{recording_time}_spectrogram.png', dbscale=True, wlen = 0.1)
+    outfile = f'{recording_time}_spectrogram.png'
+    st.spectrogram(outfile=outfile, dbscale=True, wlen = 0.1)
+    # Need to do some clearing, otherwise matplotlib hogs too much memory
+    # when saving plots to files
+    plt.cla()
+    plt.close('all')
     print('Finished ' + filename)
