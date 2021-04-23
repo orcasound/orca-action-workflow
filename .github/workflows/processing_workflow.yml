@@ -1,0 +1,35 @@
+name: Processing workflow
+
+on:
+  # To run manually
+  workflow_dispatch:
+  # Run workflow at 12:00 UTC every day
+  schedule:
+  - cron: '0 12 * * *'
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7 # TODO: why stay on 3.7, update to 3.8-3.9
+
+    - name: Install dependencies # TODO: add caching
+      run: |
+        pip install wheel
+        pip install obspy
+
+    - name: Execute Python script
+      run: |
+        python script.py
+
+    - name: Upload spectrograms
+      uses: actions/upload-artifact@v2
+      with:
+        name: Spectrograms
+        path: |
+          *.png
