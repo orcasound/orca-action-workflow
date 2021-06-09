@@ -1,4 +1,4 @@
-name: Processing workflow on orcasound stream
+name: Orcasound processing
 
 on:
   # To run manually
