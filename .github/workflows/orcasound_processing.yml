@@ -26,6 +26,6 @@ jobs:
         aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
         read -r timestamp<latest.txt
         echo "timestamp=$timestamp" >> $GITHUB_ENV
-    - name: Echo timestamp
+    - name: Get all files
       run: |
-        echo "${{ env.timestamp }}"
+        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point
