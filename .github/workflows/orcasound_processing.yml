@@ -37,8 +37,8 @@ jobs:
 
     - name: Install ffmpeg
       run: |
-        apt-get update
-        apt-get install ffmpeg
+        sudo apt-get update
+        sudo apt-get install ffmpeg
 
     - name: cat all files into one just for fun
       run: |
