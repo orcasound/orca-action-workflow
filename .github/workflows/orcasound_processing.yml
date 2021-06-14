@@ -29,3 +29,6 @@ jobs:
     - name: Get all files
       run: |
         aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point
+    - name: Create file list
+      run: |
+        for f in bush_point/*.wav; do echo "file '$f'" >> file_list.txt; done
