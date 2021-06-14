@@ -43,6 +43,10 @@ jobs:
     - name: cat all files into one just for fun
       run: |
         ffmpeg -f concat -i file_list.txt -c copy all.wav
+    
+    - name: Convert all files to .wav
+      run: |
+        for file in *.ts; do ffmpeg -i "$file" "${file%.*}.wav"; done
 
     - name: Upload resulting file
       uses: actions/upload-artifact@v2
