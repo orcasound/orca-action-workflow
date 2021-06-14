@@ -26,15 +26,24 @@ jobs:
         aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
         read -r timestamp<latest.txt
         echo "timestamp=$timestamp" >> $GITHUB_ENV
+
     - name: Get all files
       run: |
         aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point
+
     - name: Create file list
       run: |
         for f in bush_point/*.ts; do echo "file '$f'" >> file_list.txt; done
+
+    - name: Install ffmpeg
+      run: |
+        apt-get update
+        apt-get install ffmpeg
+
     - name: cat all files into one just for fun
       run: |
         ffmpeg -f concat -i file_list.txt -c copy all.wav
+
     - name: Upload resulting file
       uses: actions/upload-artifact@v2
       with:
