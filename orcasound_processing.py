@@ -27,6 +27,3 @@ def create_spectrogram(filename):
 
 for filename in sorted(glob.glob("bush_point/*.wav")):
     create_spectrogram(filename)
-
-print("Starting combined wav file...")
-create_spectrogram("all.wav")

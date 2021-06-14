@@ -64,4 +64,3 @@ jobs:
         name: Spectrograms
         path: |
           bush_point/*.png
-          *.png
