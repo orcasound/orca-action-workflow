@@ -31,19 +31,21 @@ jobs:
       run: |
         aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point
 
-    - name: Create file list
-      run: |
-        for f in bush_point/*.ts; do echo "file '$f'" >> file_list.txt; done
-
     - name: Install ffmpeg
       run: |
         sudo apt-get update
         sudo apt-get install ffmpeg
 
-    - name: cat all files into one just for fun
+    - name: Concat all files into one just for fun
       run: |
-        ffmpeg -f concat -i file_list.txt -c copy all.wav
-    
+        ffmpeg -f concat -i <(for f in ./bush_point/*.ts; do echo "file '$PWD/$f'"; done) -c copy all.wav
+
+    - name: Upload combined wav file
+      uses: actions/upload-artifact@v2
+      with:
+        name: all.wav
+        path: all.wav
+
     - name: Convert all files to .wav
       run: |
         for file in bush_point/*.ts; do ffmpeg -i "$file" "${file%.*}.wav"; done
@@ -51,12 +53,6 @@ jobs:
     - name: Create spectrograms
       run: |
         python orcasound_processing.py
-
-    - name: Upload combined wav file
-      uses: actions/upload-artifact@v2
-      with:
-        name: all.wav
-        path: all.wav
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
