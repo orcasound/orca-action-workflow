@@ -14,7 +14,6 @@ for filename in filelist:
     plt.subplot(211)
     plt.title("Channel 0 above, Channel 1 below")
     plt.specgram(data[:, 0], Fs=samplerate)
-    plt.xlabel("Time")
     plt.ylabel("Frequency")
 
     plt.subplot(212)
