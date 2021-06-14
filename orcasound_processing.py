@@ -5,7 +5,9 @@ import sys
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(
+    format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
+)
 
 
 def create_spectrogram(filename):
