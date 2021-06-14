@@ -32,4 +32,11 @@ jobs:
     - name: Create file list
       run: |
         for f in bush_point/*.ts; do echo "file '$f'" >> file_list.txt; done
-        cat file_list.txt
+    - name: cat all files into one just for fun
+      run: |
+        ffmpeg -f concat -i file_list.txt -c copy all.wav
+    - name: Upload resulting file
+      uses: actions/upload-artifact@v2
+      with:
+        name: all.wav
+        path: all.wav
