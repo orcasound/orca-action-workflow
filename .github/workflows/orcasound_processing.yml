@@ -47,9 +47,20 @@ jobs:
     - name: Convert all files to .wav
       run: |
         for file in bush_point/*.ts; do ffmpeg -i "$file" "${file%.*}.wav"; done
+    
+    - name: Create spectrograms
+      run: |
+        python orcasound_processing.py
 
-    - name: Upload resulting file
+    - name: Upload combined wav file
       uses: actions/upload-artifact@v2
       with:
         name: all.wav
         path: all.wav
+
+    - name: Upload spectrograms
+      uses: actions/upload-artifact@v2
+      with:
+        name: Spectrograms
+        path: |
+          bush_point/*.png
