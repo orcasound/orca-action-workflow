@@ -3,12 +3,7 @@ import glob
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
-filelist = []
-
 for filename in sorted(glob.glob("bush_point/*.wav")):
-    filelist.append(filename)
-
-for filename in filelist:
     samplerate, data = wavfile.read(filename)
 
     plt.subplot(211)
