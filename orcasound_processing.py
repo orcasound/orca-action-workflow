@@ -4,6 +4,8 @@ import logging
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.WARNING)
+
 
 def create_spectrogram(filename):
     samplerate, data = wavfile.read(filename)
