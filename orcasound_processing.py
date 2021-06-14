@@ -3,7 +3,8 @@ import glob
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
-for filename in sorted(glob.glob("bush_point/*.wav")):
+
+def create_spectrogram(filename):
     samplerate, data = wavfile.read(filename)
 
     plt.subplot(211)
@@ -22,3 +23,10 @@ for filename in sorted(glob.glob("bush_point/*.wav")):
     plt.cla()
     plt.close("all")
     print("Finished " + filename)
+
+
+for filename in sorted(glob.glob("bush_point/*.wav")):
+    create_spectrogram(filename)
+
+print("Starting combined wav file...")
+create_spectrogram("all.wav")
