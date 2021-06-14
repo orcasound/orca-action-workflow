@@ -38,7 +38,7 @@ jobs:
 
     - name: Concat all files into one just for fun
       run: |
-        ffmpeg -f -safe 0 concat -i <(for f in ./bush_point/*.ts; do echo "file '$PWD/$f'"; done) -c copy all.wav
+        ffmpeg -f -safe 0 concat -i <(for f in bush_point/*.ts; do echo "file '$PWD/$f'"; done) -c copy all.wav
 
     - name: Upload combined wav file
       uses: actions/upload-artifact@v2
