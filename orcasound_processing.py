@@ -1,4 +1,5 @@
 import glob
+import logging
 
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
@@ -22,7 +23,7 @@ def create_spectrogram(filename):
 
     plt.cla()
     plt.close("all")
-    print("Finished " + filename)
+    logging.info("Finished " + filename)
 
 
 for filename in sorted(glob.glob("bush_point/*.wav")):
