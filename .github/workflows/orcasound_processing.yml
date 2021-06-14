@@ -46,7 +46,7 @@ jobs:
     
     - name: Convert all files to .wav
       run: |
-        for file in bush_point/*.ts; do ffmpeg -i "$file" "bush_point/${file%.*}.wav"; done
+        for file in bush_point/*.ts; do ffmpeg -i "$file" "${file%.*}.wav"; done
 
     - name: Upload resulting file
       uses: actions/upload-artifact@v2
