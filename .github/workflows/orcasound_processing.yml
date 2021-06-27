@@ -27,9 +27,17 @@ jobs:
         read -r timestamp<latest.txt
         echo "timestamp=$timestamp" >> $GITHUB_ENV
 
+    - uses: actions/cache@v2
+      id: cache
+      with:
+        path: |
+          bush_point/${{ env.timestamp }}/
+        key: bush_point-${{ env.timestamp }}
+
     - name: Get all files
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point
+        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
 
     - name: Install ffmpeg
       run: |
@@ -38,7 +46,7 @@ jobs:
 
     - name: Concat all files into one just for fun
       run: |
-        ffmpeg -f concat -safe 0 -i <(for f in bush_point/*.ts; do echo "file '$PWD/$f'"; done) -c copy all.wav
+        ffmpeg -f concat -safe 0 -i <(for f in bush_point/${{ env.timestamp }}/*.ts; do echo "file '$PWD/$f'"; done) -c copy all.wav
 
     - name: Upload combined wav file
       uses: actions/upload-artifact@v2
@@ -48,15 +56,17 @@ jobs:
 
     - name: Convert all files to .wav
       run: |
-        for file in bush_point/*.ts; do ffmpeg -i "$file" "${file%.*}.wav"; done
+        mkdir -p wav/bush_point/${{ env.timestamp }}
+        for file in bush_point/${{ env.timestamp }}/*.ts; do ffmpeg -i "$file" "wav/${file%.*}.wav"; done
     
     - name: Create spectrograms
       run: |
-        python orcasound_processing.py bush_point
+        mkdir -p png/bush_point/${{ env.timestamp }}
+        python orcasound_processing.py wav/bush_point/${{ env.timestamp }} -o png/bush_point/${{ env.timestamp }}
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
       with:
         name: Spectrograms
         path: |
-          bush_point/*.png
+          png/bush_point/${{ env.timestamp }}/*.png
