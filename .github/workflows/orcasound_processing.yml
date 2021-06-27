@@ -21,11 +21,17 @@ jobs:
         python -m pip install -U setuptools wheel
         python -m pip install awscli matplotlib scipy
 
-    - name: Get latest timestamp
+    # - name: Get latest timestamp
+    #   run: |
+    #     aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
+    #     read -r timestamp<latest.txt
+    #     echo "timestamp=$timestamp" >> $GITHUB_ENV
+
+    - name: Set hardcoded "full" timestamp
+      # 1618317018
+      # Tue Apr 13 2021 12:30:18 GMT+0000
       run: |
-        aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
-        read -r timestamp<latest.txt
-        echo "timestamp=$timestamp" >> $GITHUB_ENV
+        echo "timestamp=1618317018" >> $GITHUB_ENV
 
     - uses: actions/cache@v2
       id: cache
