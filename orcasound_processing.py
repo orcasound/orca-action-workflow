@@ -33,5 +33,4 @@ for input_path in sorted(glob.glob(f"{args.input_dir}/*.wav")):
     if args.output is not None:
         file_name = path.splitext(path.basename(input_path))[0]
         output_fname = f"{args.output}/{file_name}"
-    print(output_fname)
     create_spectrogram(input_path, output_fname, args.nfft)
