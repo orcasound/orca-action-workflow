@@ -1,11 +1,11 @@
 repos:
 -   repo: https://github.com/pycqa/isort
-    rev: 5.8.0
+    rev: 5.9.1
     hooks:
     - id: isort
       args: ["--profile", "black"]
 
--   repo: https://github.com/python/black
+-   repo: https://github.com/psf/black
     rev: 21.6b0
     hooks:
     - id: black
@@ -15,3 +15,8 @@ repos:
     hooks:
     - id: pyupgrade
       args: ["--py39-plus"]
+
+-   repo: https://github.com/pycqa/flake8
+    rev: 3.9.2
+    hooks:
+    -   id: flake8
