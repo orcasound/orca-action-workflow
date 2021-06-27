@@ -52,7 +52,7 @@ jobs:
     
     - name: Create spectrograms
       run: |
-        python orcasound_processing.py
+        python orcasound_processing.py bush_point
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
