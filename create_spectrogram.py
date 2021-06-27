@@ -22,11 +22,15 @@ def create_spectrogram(input_wav, plot_path=None, NFFT=256):
     plt.title("Channel 0 above, Channel 1 below")
     plt.specgram(data[:, 0], Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
     plt.ylabel("Frequency")
+    cbar = plt.colorbar()
+    cbar.set_label("DB")
 
     plt.subplot(212)
     plt.specgram(data[:, 1], Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
     plt.xlabel("Time")
     plt.ylabel("Frequency")
+    cbar = plt.colorbar()
+    cbar.set_label("DB")
 
     if plot_path is None:
         plot_path = input_wav.replace(".wav", ".png")
