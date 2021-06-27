@@ -44,6 +44,7 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
         aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
+        rm -rf bush_point/${{ env.timestamp }}/live2159.ts
 
     - name: Install ffmpeg
       run: |
