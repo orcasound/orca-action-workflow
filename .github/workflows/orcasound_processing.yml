@@ -21,6 +21,11 @@ jobs:
         python -m pip install -U setuptools wheel
         python -m pip install awscli matplotlib scipy m3u8 git+https://github.com/kkroening/ffmpeg-python
 
+    - name: Install ffmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install ffmpeg
+
     # - name: Get latest timestamp
     #   run: |
     #     aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
