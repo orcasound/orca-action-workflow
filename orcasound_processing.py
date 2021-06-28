@@ -27,6 +27,16 @@ def convert_with_ffmpeg(input_file, output_file):
         raise e
 
 
+def create_readable_name(directory, timestamp):
+    """Creates human readable `.wav` file name from `output_dir` and Unix timestamp.
+
+    Resulting name will look like `directory`/%Y-%m-%dT%H-%M-%S.wav"""
+    return path.join(
+        directory,
+        f"{datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H-%M-%S')}.wav",
+    )
+
+
 def convert2wav(input_dir, output_dir):
     """Converts all `.ts` files from `live.m3u8` to `.wav`.
 
@@ -48,16 +58,6 @@ def convert2wav(input_dir, output_dir):
         timestamp += segments[idx - 1]["duration"]
         old_name = path.join(input_dir, segment["uri"])
         convert_with_ffmpeg(old_name, get_new_name(timestamp))
-
-
-def create_readable_name(directory, timestamp):
-    """Creates human readable `.wav` file name from `output_dir` and Unix timestamp.
-
-    Resulting name will look like `directory`/%Y-%m-%dT%H-%M-%S.wav"""
-    return path.join(
-        directory,
-        f"{datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H-%M-%S')}.wav",
-    )
 
 
 if __name__ == "__main__":
