@@ -11,10 +11,6 @@ import m3u8
 
 from create_spectrogram import create_spectrogram
 
-logging.basicConfig(
-    format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
-)
-
 
 def convert_with_ffmpeg(input_file, output_file):
     """Converts input file using ffmpeg."""
@@ -63,6 +59,9 @@ def convert2wav(input_dir, output_dir):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
+    )
     parser = argparse.ArgumentParser(
         description="Creates spectrogram for each .ts file in the input directory."
     )
