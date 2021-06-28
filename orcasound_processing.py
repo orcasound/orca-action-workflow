@@ -4,6 +4,7 @@ import logging
 import sys
 from datetime import datetime
 from os import path
+from pathlib import Path
 
 import ffmpeg
 import m3u8
@@ -48,16 +49,17 @@ def convert2wav(input_dir, output_dir):
     Returns:
         None
     """
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+
     playlist = m3u8.load(path.join(input_dir, "live.m3u8"))
     timestamp = float(path.basename(input_dir))
-    get_new_name = create_readable_name(output_dir, timestamp)
     segments = playlist.data["segments"]
     old_name = path.join(input_dir, segments[0]["uri"])
-    convert_with_ffmpeg(old_name, get_new_name(timestamp))
+    convert_with_ffmpeg(old_name, create_readable_name(output_dir, timestamp))
     for idx, segment in enumerate(segments[1:], start=1):
         timestamp += segments[idx - 1]["duration"]
         old_name = path.join(input_dir, segment["uri"])
-        convert_with_ffmpeg(old_name, get_new_name(timestamp))
+        convert_with_ffmpeg(old_name, create_readable_name(output_dir, timestamp))
 
 
 if __name__ == "__main__":
@@ -87,6 +89,7 @@ if __name__ == "__main__":
     for input_wav in sorted(glob.glob("wav/*.wav")):
         output_fname = None
         if args.output is not None:
+            Path(args.output).mkdir(parents=True, exist_ok=True)
             file_name = path.splitext(path.basename(input_wav))[0]
             output_fname = f"{path.normpath(args.output)}/{file_name}"
         create_spectrogram(input_wav, output_fname, args.nfft)
