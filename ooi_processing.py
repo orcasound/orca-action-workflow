@@ -1,10 +1,16 @@
 import datetime
+import logging
 import re
+import sys
 from html.parser import HTMLParser
 
 import matplotlib.pyplot as plt
 import obspy
 import requests
+
+logging.basicConfig(
+    format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
+)
 
 
 # extracting link for last file today
@@ -41,4 +47,4 @@ for filename in filelist:
     # when saving plots to files
     plt.cla()
     plt.close("all")
-    print("Finished " + filename)
+    logging.info("Finished " + filename)
