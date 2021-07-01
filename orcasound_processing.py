@@ -30,7 +30,7 @@ def create_readable_name(directory, timestamp):
     Resulting name will look like `directory`/%Y-%m-%dT%H-%M-%S.wav"""
     return path.join(
         directory,
-        f"{datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H-%M-%S')}.wav",
+        f"{datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H-%M-%S-%f')[:-3]}.wav",
     )
 
 
