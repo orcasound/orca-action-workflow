@@ -1,5 +1,6 @@
 import datetime
 import logging
+import os
 import sys
 
 from ooipy.request import hydrophone_request
@@ -26,4 +27,5 @@ while start_time < end_time:
     wav_name = f"{datestr}.wav"
     hydrophone_data.wav_write(wav_name)
     save_spectrogram(wav_name)
+    os.remove(wav_name)
     start_time = segment_end
