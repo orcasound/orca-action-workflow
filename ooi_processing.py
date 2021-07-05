@@ -1,6 +1,6 @@
-import datetime
 import logging
 import sys
+from datetime import datetime
 
 from ooipy.request import hydrophone_request
 
@@ -10,7 +10,7 @@ logging.basicConfig(
     format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
 )
 
-end_time = datetime.datetime.today()
+end_time = datetime.combine(datetime.today(), datetime.time())
 start_time = end_time - datetime.timedelta(days=1)
 segment_length = datetime.timedelta(minutes=5)
 node = "PC01A"
@@ -20,7 +20,8 @@ while start_time < end_time:
     hydrophone_data = hydrophone_request.get_acoustic_data(
         start_time, segment_end, node
     )
-    wav_name = f"{start_time}.wav"
+    datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
+    wav_name = f"{datestr}.wav"
     hydrophone_data.wav_write(wav_name)
     save_spectrogram(wav_name)
     start_time = segment_end
