@@ -10,7 +10,7 @@ logging.basicConfig(
     format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
 )
 
-end_time = datetime.combine(datetime.today(), datetime.time())
+end_time = datetime.combine(datetime.today(), datetime.min.time())
 start_time = end_time - datetime.timedelta(days=1)
 segment_length = datetime.timedelta(minutes=5)
 node = "PC01A"
