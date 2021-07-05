@@ -5,8 +5,23 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
 
-def create_spectrogram(input_wav, plot_path=None, NFFT=256):
+def plot_psd(data, samplerate, NFFT=256, noverlap=128):
     """Plots power spectral density spectrogram.
+
+    Args:
+        `data`: Array or sequence containing the data.
+        `samplerate`: The sampling frequency (samples per time unit).
+        `NFFT`: The number of data points used in each block for the FFT. A power 2 is most efficient.
+        `noverlap`: The number of points of overlap between blocks.
+    """
+    plt.specgram(data, Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
+    plt.ylabel("Frequency")
+    cbar = plt.colorbar()
+    cbar.set_label("DB")
+
+
+def save_spectrogram(input_wav, plot_path=None, NFFT=256):
+    """Saves power spectral density spectrogram to file.
 
     Args:
         `input_wav`: Path to the input .wav file.
@@ -18,19 +33,15 @@ def create_spectrogram(input_wav, plot_path=None, NFFT=256):
     samplerate, data = wavfile.read(input_wav)
     noverlap = NFFT // 2 if NFFT <= 128 else 128
 
-    plt.subplot(211)
-    plt.title("Channel 0 above, Channel 1 below")
-    plt.specgram(data[:, 0], Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
-    plt.ylabel("Frequency")
-    cbar = plt.colorbar()
-    cbar.set_label("DB")
+    if len(data.shape) == 1:
+        plot_psd(data, samplerate, NFFT, noverlap)
+    else:
+        plt.subplot(211)
+        plt.title("Channel 0 above, Channel 1 below")
+        plot_psd(data[:, 0], samplerate, NFFT, noverlap)
 
-    plt.subplot(212)
-    plt.specgram(data[:, 1], Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
-    plt.xlabel("Time")
-    plt.ylabel("Frequency")
-    cbar = plt.colorbar()
-    cbar.set_label("DB")
+        plt.subplot(212)
+        plot_psd(data[:, 1], samplerate, NFFT, noverlap)
 
     if plot_path is None:
         plot_path = input_wav.replace(".wav", ".png")
@@ -60,4 +71,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    create_spectrogram(args.input, args.output, args.nfft)
+    save_spectrogram(args.input, args.output, args.nfft)
