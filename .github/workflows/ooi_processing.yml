@@ -22,7 +22,7 @@ jobs:
       run: |
         python -m pip install -U pip
         python -m pip install -U setuptools wheel
-        python -m pip install obspy
+        python -m pip install ooipy
 
     - name: Execute Python script
       run: |
