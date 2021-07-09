@@ -15,7 +15,7 @@ def plot_psd(data, samplerate, NFFT=256, noverlap=128):
         `noverlap`: The number of points of overlap between blocks.
     """
     plt.specgram(data, Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
-    plt.ylabel("Frequency")
+    plt.ylabel("Frequency [Hz]")
     cbar = plt.colorbar()
     cbar.set_label("DB")
 
@@ -33,15 +33,20 @@ def save_spectrogram(input_wav, plot_path=None, NFFT=256):
     samplerate, data = wavfile.read(input_wav)
     noverlap = NFFT // 2 if NFFT <= 128 else 128
 
+    title = input_wav.removesuffix(".wav")
+    plt.title(title)
     if len(data.shape) == 1:
         plot_psd(data, samplerate, NFFT, noverlap)
     else:
         plt.subplot(211)
-        plt.title("Channel 0 above, Channel 1 below")
         plot_psd(data[:, 0], samplerate, NFFT, noverlap)
+        title = f"{title}\nChannel 0 above, Channel 1 below"
+        plt.title(title)
 
         plt.subplot(212)
         plot_psd(data[:, 1], samplerate, NFFT, noverlap)
+
+    plt.xlabel("Time [s]")
 
     if plot_path is None:
         plot_path = input_wav.replace(".wav", ".png")
