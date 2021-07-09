@@ -24,7 +24,8 @@ while start_time < end_time:
         start_time, segment_end, node, verbose=True
     )
     if hydrophone_data is None:
-        logging.info(f"Could not get data from {start_time} to {end_time}")
+        logging.info(f"Could not get data from {start_time} to {segment_end}")
+        start_time = segment_end
         continue
     datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
     wav_name = f"{datestr}.wav"
