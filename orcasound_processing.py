@@ -9,7 +9,7 @@ from pathlib import Path
 import ffmpeg
 import m3u8
 
-from create_spectrogram import create_spectrogram
+from create_spectrogram import save_spectrogram
 
 
 def convert_with_ffmpeg(input_file, output_file):
@@ -91,4 +91,4 @@ if __name__ == "__main__":
             Path(args.output).mkdir(parents=True, exist_ok=True)
             file_name = path.splitext(path.basename(input_wav))[0]
             output_fname = f"{path.normpath(args.output)}/{file_name}"
-        create_spectrogram(input_wav, output_fname, args.nfft)
+        save_spectrogram(input_wav, output_fname, args.nfft)

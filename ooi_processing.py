@@ -1,50 +1,35 @@
 import datetime
 import logging
-import re
+import os
 import sys
-from html.parser import HTMLParser
 
-import matplotlib.pyplot as plt
-import obspy
-import requests
+from ooipy.request import hydrophone_request
+
+from create_spectrogram import save_spectrogram
 
 logging.basicConfig(
     format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
 )
 
-
-# extracting link for last file today
-class MyHTMLParser(HTMLParser):
-    def handle_data(self, data):
-        if "HYVM2" in data:
-            filelist.append(data)
-
-
-yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
-datestr = yesterday.strftime("%Y/%m/%d")
+end_time = datetime.datetime.combine(
+    datetime.datetime.today(), datetime.datetime.min.time()
+)
+start_time = end_time - datetime.timedelta(days=1)
+segment_length = datetime.timedelta(minutes=5)
 node = "PC01A"
-url = f"https://rawdata.oceanobservatories.org/files/RS01SBPS/{node}/08-HYDBBA103/{datestr}"
 
-page = requests.get(url)
-if page.status_code == 404:
-    print("Following directory doesn't exist:\n" + url)
-
-filelist = []
-parser = MyHTMLParser()
-parser.feed(str(page.content))
-
-for filename in filelist:
-    full_url = f"{url}/{filename}"
-    st = obspy.read(full_url)
-    st.filter("bandpass", freqmin=2000, freqmax=6000.0)
-    st.decimate(factor=10)
-    recording_time = re.search(r"OO-HYVM2--YDH-(.*?)\.mseed", filename).group(1)
-    # upload-artifact doesn't support ':' in filepaths!
-    recording_time = recording_time.replace(":", "-")
-    outfile = f"{recording_time}_spectrogram.png"
-    st.spectrogram(outfile=outfile, dbscale=True, wlen=0.1)
-    # Need to do some clearing, otherwise matplotlib hogs too much memory
-    # when saving plots to files
-    plt.cla()
-    plt.close("all")
-    logging.info("Finished " + filename)
+while start_time < end_time:
+    segment_end = min(start_time + segment_length, end_time)
+    hydrophone_data = hydrophone_request.get_acoustic_data(
+        start_time, segment_end, node, verbose=True
+    )
+    if hydrophone_data is None:
+        logging.info(f"Could not get data from {start_time} to {segment_end}")
+        start_time = segment_end
+        continue
+    datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
+    wav_name = f"{datestr}.wav"
+    hydrophone_data.wav_write(wav_name)
+    save_spectrogram(wav_name)
+    os.remove(wav_name)
+    start_time = segment_end
