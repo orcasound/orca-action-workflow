@@ -3,6 +3,17 @@ name: OOI processing
 on:
   # To run manually
   workflow_dispatch:
+    inputs:
+      node:
+        description: 'Alphanumeric node id (e.g. PC01A)'
+        required: false
+        default: 'PC01A'
+      start_time:
+        description: 'start_time formatted as Y-m-dTH-M-S'
+        required: false
+      end_time:
+        description: 'end_time formatted as Y-m-dTH-M-S'
+        required: false
   # Run workflow at 12:00 UTC every day
   schedule:
   - cron: '0 12 * * *'
