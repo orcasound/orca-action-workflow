@@ -1,8 +1,26 @@
 import argparse
 import logging
+from os import path
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
+
+
+def create_spec_name(wav_name, output_dir):
+    """Creates appropriate path to the spectrogram from input .wav file and output directory.
+
+    Args:
+        `wav_name`: Path to the input .wav file.
+        `output_dir`: Path to the output directory.
+    Returns:
+        Path to the output spectrogram.
+    """
+    spec_name = path.splitext(path.basename(wav_name))[0]
+    if output_dir is not None:
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        spec_name = f"{path.normpath(output_dir)}/{spec_name}"
+    return f"{spec_name}.png"
 
 
 def plot_psd(data, samplerate, nfft=256, noverlap=128):

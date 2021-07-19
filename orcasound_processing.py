@@ -9,7 +9,7 @@ from pathlib import Path
 import ffmpeg
 import m3u8
 
-from create_spectrogram import save_spectrogram
+from create_spectrogram import create_spec_name, save_spectrogram
 
 
 def convert_with_ffmpeg(input_file, output_file):
@@ -80,17 +80,13 @@ if __name__ == "__main__":
         "-n",
         "--nfft",
         type=int,
-        help="The number of data points used in each block for the FFT. A power 2 is most efficient. Default is 256.",
         default=256,
+        help="The number of data points used in each block for the FFT. A power 2 is most efficient. Default is %(default)s.",
     )
     args = parser.parse_args()
 
     convert2wav(path.normpath(args.input_dir), "wav")
 
     for input_wav in sorted(glob.glob("wav/*.wav")):
-        output_fname = None
-        if args.output is not None:
-            Path(args.output).mkdir(parents=True, exist_ok=True)
-            file_name = path.splitext(path.basename(input_wav))[0]
-            output_fname = f"{path.normpath(args.output)}/{file_name}"
+        output_fname = create_spec_name(input_wav, args.output)
         save_spectrogram(input_wav, output_fname, args.nfft)
