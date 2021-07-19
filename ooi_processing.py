@@ -91,7 +91,7 @@ if __name__ == "__main__":
         datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
         wav_name = f"{datestr}.wav"
         hydrophone_data.wav_write(wav_name)
-        output_fname = create_spec_name(wav_name, args.output)
-        save_spectrogram(output_fname)
+        spec_fname = create_spec_name(wav_name, args.output)
+        save_spectrogram(wav_name, spec_fname)
         os.remove(wav_name)
         start_time = segment_end
