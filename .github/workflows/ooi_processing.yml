@@ -14,9 +14,18 @@ on:
       end_time:
         description: 'end_time formatted as Y-m-dTH-M-S'
         required: false
+      segment_length:
+        description: 'Segment length in minutes'
+        required: false
+        default: 5
   # Run workflow at 12:00 UTC every day
   schedule:
   - cron: '0 12 * * *'
+
+env:
+  NODE: ${{ github.event.inputs.node || 'PC01A' }}
+  SEGMENT_LENGTH: ${{ github.event.inputs.segment_length || 5 }}
+  OUTPUT_DIR: spectrograms
 
 jobs:
   process:
@@ -35,13 +44,22 @@ jobs:
         python -m pip install -U setuptools wheel
         python -m pip install ooipy
 
-    - name: Execute Python script
+    - name: Custom timeframe
+      if: ${{ github.event.inputs.start_time }}
       run: |
-        python ooi_processing.py
+        python ooi_processing.py -o ${{ env.output_dir }} --node ${{ env.node }} \
+          -l ${{ env.segment_length }} -s ${{ github.event.inputs.start_time }} \
+          -e ${{ github.event.inputs.end_time }}
+    
+    - name: Default timeframe
+      if: ${{ !github.event.inputs.start_time }}
+      run: |
+        python ooi_processing.py -o ${{ env.output_dir }} --node ${{ env.node }} \
+          -l ${{ env.segment_length }}
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
       with:
         name: Spectrograms
         path: |
-          *.png
+          ${{ env.output_dir }}/*.png
