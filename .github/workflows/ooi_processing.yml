@@ -62,4 +62,4 @@ jobs:
       with:
         name: Spectrograms
         path: |
-          ${{ env.output_dir }}/*.png
+          ${{ env.OUTPUT_DIR }}/*.png
