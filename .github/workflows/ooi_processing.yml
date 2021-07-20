@@ -47,15 +47,15 @@ jobs:
     - name: Custom timeframe
       if: ${{ github.event.inputs.start_time }}
       run: |
-        python ooi_processing.py -o ${{ env.output_dir }} --node ${{ env.node }} \
-          -l ${{ env.segment_length }} -s ${{ github.event.inputs.start_time }} \
+        python ooi_processing.py -o ${{ env.OUTPUT_DIR }} --node ${{ env.NODE }} \
+          -l ${{ env.SEGMENT_LENGTH }} -s ${{ github.event.inputs.start_time }} \
           -e ${{ github.event.inputs.end_time }}
     
     - name: Default timeframe
       if: ${{ !github.event.inputs.start_time }}
       run: |
-        python ooi_processing.py -o ${{ env.output_dir }} --node ${{ env.node }} \
-          -l ${{ env.segment_length }}
+        python ooi_processing.py -o ${{ env.OUTPUT_DIR }} --node ${{ env.NODE }} \
+          -l ${{ env.SEGMENT_LENGTH }}
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
