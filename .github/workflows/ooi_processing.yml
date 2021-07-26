@@ -50,7 +50,7 @@ jobs:
         python ooi_processing.py -o ${{ env.OUTPUT_DIR }} --node ${{ env.NODE }} \
           -l ${{ env.SEGMENT_LENGTH }} -s ${{ github.event.inputs.start_time }} \
           -e ${{ github.event.inputs.end_time }}
-    
+
     - name: Default timeframe
       if: ${{ !github.event.inputs.start_time }}
       run: |
