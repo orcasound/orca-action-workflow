@@ -25,9 +25,11 @@ def convert_with_ffmpeg(input_file, output_file):
 
 
 def create_readable_name(directory, timestamp):
-    """Creates human readable `.wav` file name from `output_dir` and Unix timestamp.
+    """
+    Creates human readable `.wav` file name from `output_dir` and Unix timestamp.
 
-    Resulting name will look like `directory`/%Y-%m-%dT%H-%M-%S.wav"""
+    Resulting name will look like `directory/%Y-%m-%dT%H-%M-%S.wav`
+    """
     return path.join(
         directory,
         f"{datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%dT%H-%M-%S-%f')[:-3]}.wav",
