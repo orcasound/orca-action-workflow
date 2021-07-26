@@ -50,7 +50,7 @@ jobs:
       run: |
         aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
         rm -rf bush_point/${{ env.timestamp }}/live2159.ts
-    
+
     - name: Create spectrograms
       run: |
         mkdir -p png/bush_point/${{ env.timestamp }}
