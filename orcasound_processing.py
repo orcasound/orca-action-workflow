@@ -15,9 +15,9 @@ from create_spectrogram import save_spectrogram
 def convert_with_ffmpeg(input_file, output_file):
     """Converts input file using ffmpeg."""
     try:
-        input = ffmpeg.input(input_file)
-        output = ffmpeg.output(input, output_file)
-        output.run(capture_stdout=True, capture_stderr=True)
+        ffmpeg_input = ffmpeg.input(input_file)
+        ffmpeg_output = ffmpeg.output(ffmpeg_input, output_file)
+        ffmpeg_output.run(capture_stdout=True, capture_stderr=True)
     except ffmpeg.Error as e:
         logging.error(e.stdout.decode("utf8"))
         logging.error(e.stderr.decode("utf8"))
