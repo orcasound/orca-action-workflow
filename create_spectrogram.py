@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
 
-def create_spec_name(wav_name, output_dir):
+def create_spec_name(wav_name, output_dir=None):
     """Creates appropriate path to the spectrogram from input .wav file and output directory.
 
     Args:
@@ -18,7 +18,6 @@ def create_spec_name(wav_name, output_dir):
     """
     spec_name = path.splitext(path.basename(wav_name))[0]
     if output_dir is not None:
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
         spec_name = f"{path.normpath(output_dir)}/{spec_name}"
     return f"{spec_name}.png"
 
@@ -46,7 +45,7 @@ def save_spectrogram(input_wav, plot_path=None, nfft=256):
         `plot_path`: Path to the output spectrogram file. Default is `input_wav` with .png extension.
         `nfft`: The number of data points used in each block for the FFT. A power 2 is most efficient.
     Returns:
-        None
+        Path to the spectrogram.
     """
     samplerate, data = wavfile.read(input_wav)
     noverlap = nfft // 2 if nfft <= 128 else 128
@@ -68,11 +67,14 @@ def save_spectrogram(input_wav, plot_path=None, nfft=256):
 
     if plot_path is None:
         plot_path = input_wav.replace(".wav", ".png")
+    else:
+        Path(path.dirname(plot_path)).mkdir(parents=True, exist_ok=True)
     plt.savefig(plot_path)
 
     plt.cla()
     plt.close("all")
     logging.info("Finished " + input_wav)
+    return plot_path
 
 
 if __name__ == "__main__":
