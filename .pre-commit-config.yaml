@@ -19,4 +19,11 @@ repos:
 -   repo: https://github.com/pycqa/flake8
     rev: 3.9.2
     hooks:
-    -   id: flake8
+    - id: flake8
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: fix-byte-order-marker
