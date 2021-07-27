@@ -8,6 +8,46 @@ from ooipy.request import hydrophone_request
 
 from create_spectrogram import create_spec_name, save_spectrogram
 
+
+def save_ooi_spectrograms(
+    start_time,
+    end_time,
+    segment_length=datetime.timedelta(minutes=5),
+    node="PC01A",
+    output_dir="spectrograms",
+    NFFT=256,
+):
+    """
+    Creates spectrograms for each time segment in the specified time range.
+
+    Args:
+        `start_time`: `datetime.datetime`
+        `end_time`: `datetime.datetime`
+        `segment_length`: `datetime.timedelta`
+        `node`: One of the preset OOI nodes.
+        `output_dir`: Path to the output directory.
+        `NFFT`: The number of data points used in each block for the FFT. A power 2 is most efficient.
+    Returns:
+        None
+    """
+    while start_time < end_time:
+        segment_end = min(start_time + segment_length, end_time)
+        hydrophone_data = hydrophone_request.get_acoustic_data(
+            start_time, segment_end, node, verbose=True
+        )
+        if hydrophone_data is None:
+            logging.info(f"Could not get data from {start_time} to {segment_end}")
+            start_time = segment_end
+            continue
+        datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
+        wav_name = f"{datestr}.wav"
+        hydrophone_data.wav_write(wav_name)
+        spec_fname = create_spec_name(wav_name, output_dir)
+        save_spectrogram(wav_name, spec_fname, NFFT)
+        os.remove(wav_name)
+        start_time = segment_end
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         format="%(levelname)s:%(message)s", stream=sys.stdout, level=logging.INFO
@@ -79,19 +119,6 @@ if __name__ == "__main__":
 
     segment_length = datetime.timedelta(minutes=args.segment_length)
 
-    while start_time < end_time:
-        segment_end = min(start_time + segment_length, end_time)
-        hydrophone_data = hydrophone_request.get_acoustic_data(
-            start_time, segment_end, args.node, verbose=True
-        )
-        if hydrophone_data is None:
-            logging.info(f"Could not get data from {start_time} to {segment_end}")
-            start_time = segment_end
-            continue
-        datestr = start_time.strftime("%Y-%m-%dT%H-%M-%S-%f")[:-3]
-        wav_name = f"{datestr}.wav"
-        hydrophone_data.wav_write(wav_name)
-        spec_fname = create_spec_name(wav_name, args.output)
-        save_spectrogram(wav_name, spec_fname)
-        os.remove(wav_name)
-        start_time = segment_end
+    save_ooi_spectrograms(
+        start_time, end_time, segment_length, args.node, args.output, args.nfft
+    )

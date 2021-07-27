@@ -37,7 +37,8 @@ def create_readable_name(directory, timestamp):
 
 
 def convert2wav(input_dir, output_dir):
-    """Converts all `.ts` files from `live.m3u8` to `.wav`.
+    """
+    Converts all `.ts` files from `live.m3u8` to `.wav`.
 
     All files will have the following format: `%Y-%m-%dT%H-%M-%S.wav`
 
