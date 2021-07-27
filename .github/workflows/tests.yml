@@ -3,7 +3,7 @@ name: Tests
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  isort:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
