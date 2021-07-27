@@ -50,7 +50,7 @@ def save_spectrogram(input_wav, plot_path=None, nfft=256):
     samplerate, data = wavfile.read(input_wav)
     noverlap = nfft // 2 if nfft <= 128 else 128
 
-    title = input_wav.removesuffix(".wav")
+    title = input_wav.replace(".wav", "")
     plt.title(title)
     if len(data.shape) == 1:
         plot_psd(data, samplerate, nfft, noverlap)
