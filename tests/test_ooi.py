@@ -1,6 +1,7 @@
 """Unit tests for OOI workflow"""
 import datetime
-import os.path
+import os
+from os import path
 
 import pytest
 
@@ -34,5 +35,9 @@ def test_ooi_spectrograms(
     segment_length = datetime.timedelta(minutes=segment_length_float)
     save_ooi_spectrograms(start_time, end_time, segment_length, node, output_dir)
     assert expected_files_count == len(
-        [name for name in os.listdir(output_dir) if os.path.isfile(name)]
+        [
+            name
+            for name in os.listdir(output_dir)
+            if path.isfile(path.join(output_dir, name))
+        ]
     )
