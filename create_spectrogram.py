@@ -5,46 +5,46 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
 
-def plot_psd(data, samplerate, NFFT=256, noverlap=128):
+def plot_psd(data, samplerate, nfft=256, noverlap=128):
     """Plots power spectral density spectrogram.
 
     Args:
         `data`: Array or sequence containing the data.
         `samplerate`: The sampling frequency (samples per time unit).
-        `NFFT`: The number of data points used in each block for the FFT. A power 2 is most efficient.
+        `nfft`: The number of data points used in each block for the FFT. A power 2 is most efficient.
         `noverlap`: The number of points of overlap between blocks.
     """
-    plt.specgram(data, Fs=samplerate, NFFT=NFFT, noverlap=noverlap)
+    plt.specgram(data, Fs=samplerate, NFFT=nfft, noverlap=noverlap)
     plt.ylabel("Frequency [Hz]")
     cbar = plt.colorbar()
     cbar.set_label("DB")
 
 
-def save_spectrogram(input_wav, plot_path=None, NFFT=256):
+def save_spectrogram(input_wav, plot_path=None, nfft=256):
     """Saves power spectral density spectrogram to file.
 
     Args:
         `input_wav`: Path to the input .wav file.
         `plot_path`: Path to the output spectrogram file. Default is `input_wav` with .png extension.
-        `NFFT`: The number of data points used in each block for the FFT. A power 2 is most efficient.
+        `nfft`: The number of data points used in each block for the FFT. A power 2 is most efficient.
     Returns:
         None
     """
     samplerate, data = wavfile.read(input_wav)
-    noverlap = NFFT // 2 if NFFT <= 128 else 128
+    noverlap = nfft // 2 if nfft <= 128 else 128
 
     title = input_wav.removesuffix(".wav")
     plt.title(title)
     if len(data.shape) == 1:
-        plot_psd(data, samplerate, NFFT, noverlap)
+        plot_psd(data, samplerate, nfft, noverlap)
     else:
         plt.subplot(211)
-        plot_psd(data[:, 0], samplerate, NFFT, noverlap)
+        plot_psd(data[:, 0], samplerate, nfft, noverlap)
         title = f"{title}\nChannel 0 above, Channel 1 below"
         plt.title(title)
 
         plt.subplot(212)
-        plot_psd(data[:, 1], samplerate, NFFT, noverlap)
+        plot_psd(data[:, 1], samplerate, nfft, noverlap)
 
     plt.xlabel("Time [s]")
 
