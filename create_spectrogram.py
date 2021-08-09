@@ -18,7 +18,7 @@ def create_spec_name(wav_name, output_dir=None):
     """
     spec_name = path.splitext(path.basename(wav_name))[0]
     if output_dir is not None:
-        spec_name = f"{path.normpath(output_dir)}/{spec_name}"
+        spec_name = path.join(path.normpath(output_dir), spec_name)
     return f"{spec_name}.png"
 
 

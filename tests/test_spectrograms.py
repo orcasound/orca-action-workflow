@@ -25,6 +25,8 @@ from create_spectrogram import create_spec_name, save_spectrogram
             "end/slash/",
             "end/slash/2021-01-01T00-00-00-000.png",
         ),
+        ("no_extension", None, "no_extension.png"),
+        ("file.not_wav", None, "file.png"),
     ],
 )
 def test_create_spec_name(wav_name, output_dir, expected):
