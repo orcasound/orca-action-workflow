@@ -1,4 +1,5 @@
 """Unit tests for various util functions relating to spectrogram creation"""
+import filecmp
 import os.path
 
 import pytest
@@ -34,13 +35,18 @@ def test_create_spec_name(wav_name, output_dir, expected):
 
 
 @pytest.mark.parametrize(
-    "wav_name, plot_path",
+    "wav_name, plot_path, example_path",
     [
-        ("tests/ooi.wav", None),
-        ("tests/ooi.wav", "tests/path/to/output/ooi.png"),
-        ("tests/orcasound.wav", "tests/path/to/output/orcasound.png"),
+        ("tests/ooi.wav", None, "tests/ooi_example.png"),
+        ("tests/ooi.wav", "tests/path/to/output/ooi.png", "tests/ooi_example.png"),
+        (
+            "tests/orcasound.wav",
+            "tests/path/to/output/orcasound.png",
+            "tests/orcasound_example.png",
+        ),
     ],
 )
-def test_save_spectrogram(wav_name, plot_path):
+def test_save_spectrogram(wav_name, plot_path, example_path):
     spec_path = save_spectrogram(wav_name, plot_path)
     assert os.path.isfile(spec_path)
+    assert filecmp.cmp(spec_path, example_path, shallow=False)
