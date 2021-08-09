@@ -15,7 +15,7 @@ def save_ooi_spectrograms(
     segment_length=datetime.timedelta(minutes=5),
     node="PC01A",
     output_dir="spectrograms",
-    NFFT=256,
+    nfft=256,
 ):
     """
     Creates spectrograms for each time segment in the specified time range.
@@ -26,7 +26,7 @@ def save_ooi_spectrograms(
         `segment_length`: `datetime.timedelta`
         `node`: One of the preset OOI nodes.
         `output_dir`: Path to the output directory.
-        `NFFT`: The number of data points used in each block for the FFT. A power 2 is most efficient.
+        `nfft`: The number of data points used in each block for the FFT. A power 2 is most efficient.
     Returns:
         None
     """
@@ -43,7 +43,7 @@ def save_ooi_spectrograms(
         wav_name = f"{datestr}.wav"
         hydrophone_data.wav_write(wav_name)
         spec_fname = create_spec_name(wav_name, output_dir)
-        save_spectrogram(wav_name, spec_fname, NFFT)
+        save_spectrogram(wav_name, spec_fname, nfft)
         os.remove(wav_name)
         start_time = segment_end
 
