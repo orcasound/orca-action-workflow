@@ -1,6 +1,7 @@
 """Unit tests for OOI workflow"""
 import datetime
 import os
+import shutil
 from os import path
 
 import pytest
@@ -41,3 +42,4 @@ def test_ooi_spectrograms(
             if path.isfile(path.join(output_dir, name))
         ]
     )
+    shutil.rmtree(output_dir)
