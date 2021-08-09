@@ -15,9 +15,9 @@ on:
         description: 'end_time formatted as Y-m-dTH-M-S'
         required: false
       segment_length:
-        description: 'Segment length in minutes'
+        description: 'Segment length in minutes (float)'
         required: false
-        default: 5
+        default: 5.0
   # Run workflow at 12:00 UTC every day
   schedule:
   - cron: '0 12 * * *'
