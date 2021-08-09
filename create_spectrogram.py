@@ -50,7 +50,7 @@ def save_spectrogram(input_wav, plot_path=None, nfft=256):
     samplerate, data = wavfile.read(input_wav)
     noverlap = nfft // 2 if nfft <= 128 else 128
 
-    title = input_wav.replace(".wav", "")
+    title = path.splitext(path.basename(input_wav))[0]
     plt.title(title)
     if len(data.shape) == 1:
         plot_psd(data, samplerate, nfft, noverlap)
@@ -66,7 +66,7 @@ def save_spectrogram(input_wav, plot_path=None, nfft=256):
     plt.xlabel("Time [s]")
 
     if plot_path is None:
-        plot_path = input_wav.replace(".wav", ".png")
+        plot_path = f"{path.splitext(input_wav)[0]}.png"
     else:
         Path(path.dirname(plot_path)).mkdir(parents=True, exist_ok=True)
     plt.savefig(plot_path)
