@@ -36,11 +36,14 @@ def test_ooi_spectrograms(
         output_dir = "spectrograms"
     segment_length = datetime.timedelta(minutes=segment_length_float)
     save_ooi_spectrograms(start_time, end_time, segment_length, node, output_dir)
-    assert expected_files_count == len(
-        [
-            name
-            for name in os.listdir(output_dir)
-            if path.isfile(path.join(output_dir, name))
-        ]
-    )
-    shutil.rmtree(output_dir)
+    if expected_files_count > 0:
+        assert expected_files_count == len(
+            [
+                name
+                for name in os.listdir(output_dir)
+                if path.isfile(path.join(output_dir, name))
+            ]
+        )
+        shutil.rmtree(output_dir)
+    else:
+        assert not path.exists(output_dir)
