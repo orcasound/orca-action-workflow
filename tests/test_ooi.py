@@ -15,6 +15,7 @@ from ooi_processing import save_ooi_spectrograms
         ("2017-03-10T00-00-00", "2017-03-10T00-05-00", None, None, None, 1),
         ("2017-03-10T00-00-00", "2017-03-10T00-05-00", 1, None, None, 5),
         ("2017-03-10T00-00-00", "2017-03-10T00-05-00", 1, None, "long/path/", 5),
+        ("2017-03-10T00-05-00", "2017-03-10T00-00-00", 1, None, None, 0),
     ],
 )
 def test_ooi_spectrograms(
