@@ -1,3 +1,5 @@
+[![Tests](https://github.com/orcasound/orca-action-workflow/actions/workflows/tests.yml/badge.svg)](https://github.com/orcasound/orca-action-workflow/actions/workflows/tests.yml)
+
 An experiment of GitHub Actions cron job pinging the [OOI raw archive](https://rawdata.oceanobservatories.org/files/RS01SBPS/PC01A/08-HYDBBA103) at 12:00 UTC every day.
 
 The `script.py` takes all the files from the previous day and creates spectrograms for them. Note that this can take a couple of hours. One can add additional preprocessing of the files, for example, calculate the power spectrum.
