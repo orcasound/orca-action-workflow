@@ -1,7 +1,8 @@
 """Unit tests for various util functions relating to spectrogram creation"""
-import filecmp
 import os.path
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pytest
 
 from create_spectrogram import create_spec_name, save_spectrogram
@@ -30,7 +31,7 @@ from create_spectrogram import create_spec_name, save_spectrogram
         ("file.not_wav", None, "file.png"),
     ],
 )
-def test_create_spec_name(wav_name, output_dir, expected):
+def test_create_spec_name(wav_name: str, output_dir: str, expected: str):
     assert create_spec_name(wav_name, output_dir) == expected
 
 
@@ -46,7 +47,7 @@ def test_create_spec_name(wav_name, output_dir, expected):
         ),
     ],
 )
-def test_save_spectrogram(wav_name, plot_path, example_path):
+def test_save_spectrogram(wav_name: str, plot_path: str, example_path: str):
     spec_path = save_spectrogram(wav_name, plot_path)
     assert os.path.isfile(spec_path)
-    assert filecmp.cmp(spec_path, example_path, shallow=False)
+    assert np.array_equal(plt.imread(example_path), plt.imread(spec_path))
