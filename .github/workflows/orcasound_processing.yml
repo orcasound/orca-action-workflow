@@ -36,29 +36,29 @@ jobs:
       # 1618317018
       # Tue Apr 13 2021 12:30:18 GMT+0000
       run: |
-        echo "timestamp=1595729703" >> $GITHUB_ENV
+        echo "timestamp=1595727018" >> $GITHUB_ENV
 
     - uses: actions/cache@v2
       id: cache
       with:
         path: |
-          bush_point/${{ env.timestamp }}/
-        key: bush_point-${{ env.timestamp }}
+          orcasound_lab/${{ env.timestamp }}/
+        key: orcasound_lab-${{ env.timestamp }}
 
     - name: Get all files
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
+        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_orcasound_lab/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
         rm -rf bush_point/${{ env.timestamp }}/live2159.ts
 
     - name: Create spectrograms
       run: |
-        mkdir -p png/bush_point/${{ env.timestamp }}
-        python orcasound_processing.py bush_point/${{ env.timestamp }} -o png/bush_point/${{ env.timestamp }}
+        mkdir -p png/orcasound_lab/${{ env.timestamp }}
+        python orcasound_processing.py orcasound_lab/${{ env.timestamp }} -o png/orcasound_lab/${{ env.timestamp }}
 
     - name: Upload spectrograms
       uses: actions/upload-artifact@v2
       with:
         name: Spectrograms
         path: |
-          png/bush_point/${{ env.timestamp }}/*.png
+          png/orcasound_lab/${{ env.timestamp }}/*.png
