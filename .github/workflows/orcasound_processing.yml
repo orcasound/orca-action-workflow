@@ -48,7 +48,7 @@ jobs:
     - name: Get all files
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_orcasound_lab/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
+        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_orcasound_lab/hls/${{ env.timestamp }}/ orcasound_lab/${{ env.timestamp }}
         rm -rf bush_point/${{ env.timestamp }}/live2159.ts
 
     - name: Create spectrograms
