@@ -58,6 +58,9 @@ def convert2wav(input_dir, output_dir):
     for idx, segment in enumerate(segments[1:], start=1):
         timestamp += segments[idx - 1]["duration"]
         old_name = path.join(input_dir, segment["uri"])
+        if not path.isfile(old_name):
+            logging.error(f"Missing file {old_name}")
+            continue
         convert_with_ffmpeg(old_name, create_readable_name(output_dir, timestamp))
 
 
