@@ -39,7 +39,7 @@ jobs:
       run: |
         python -m pip install -U pip
         python -m pip install -U setuptools wheel
-        python -m pip install ooipy
+        python -m pip install ooipy 'numpy<1.22'
 
     - name: Custom timeframe
       if: ${{ github.event.inputs.start_time }}
