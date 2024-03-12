@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: '*/30 * * * *'
     
+  workflow_dispatch:
+  
+    
 jobs:
   process:
     runs-on: ubuntu-latest
