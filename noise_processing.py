@@ -6,6 +6,9 @@ import os
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import pytz
+
+
 from orcasound_noise.pipeline.acoustic_util import plot_spec, plot_bb
 
 
@@ -18,7 +21,7 @@ if __name__ == '__main__':
                                      delta_t=60, mode='safe')
 
 
-now = dt.datetime.now()
+now = dt.datetime.now(pytz.timezone('US/Pacific')
 
 psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 6), 
                                                           now - dt.timedelta(hours = 1), 
