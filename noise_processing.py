@@ -14,8 +14,11 @@ if __name__ == '__main__':
                                      delta_f=10, bands=None,
                                      delta_t=60, mode='safe')
 
-psd_path, broadband_path = pipeline.generate_parquet_file(dt.datetime(2023, 3, 23, 7), 
-                                                          dt.datetime(2023, 3, 23, 8), 
+
+now = dt.datetime.now()
+
+psd_path, broadband_path = pipeline.generate_parquet_file(now, 
+                                                          now - dt.timedelta(hours = 6), 
                                                           upload_to_s3=False)
 
 
