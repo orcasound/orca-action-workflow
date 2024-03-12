@@ -3,9 +3,8 @@ name: Ambient Sound Processing
 on:
   # To run manually
   # workflow_dispatch:
-
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/30 * * * *'
     
 jobs:
   process:
