@@ -17,8 +17,8 @@ if __name__ == '__main__':
 
 now = dt.datetime.now()
 
-psd_path, broadband_path = pipeline.generate_parquet_file(now, 
-                                                          now - dt.timedelta(hours = 6), 
+psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 6), 
+                                                          now - dt.timedelta(hours = 1), 
                                                           upload_to_s3=False)
 
 
@@ -28,4 +28,5 @@ bb_df = pd.read_parquet(broadband_path)
 plot_spec(psd_df)
 plot_bb(bb_df)
 
+plt.xticks(rotation=45)
 plt.savefig('broadband.png')
