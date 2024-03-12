@@ -21,7 +21,7 @@ if __name__ == '__main__':
                                      delta_t=60, mode='safe')
 
 
-now = dt.datetime.now(pytz.timezone('US/Pacific')
+now = dt.datetime.now(pytz.timezone('US/Pacific'))
 
 psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 6), 
                                                           now - dt.timedelta(hours = 1), 
