@@ -10,10 +10,9 @@ Orcasound GitHub Actions workflow (located at `.github/workflows/orcasound_proce
 
 ## Orcasound Ambient Sound Visualization
 
-### Broadband Plot
+
 ![](img/broadband.png)
 
-### Power Spectral Density Plot
 ![](img/psd.png)
 
 # Ocean Observatories Initiative
