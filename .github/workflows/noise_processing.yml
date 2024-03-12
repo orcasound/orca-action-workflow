@@ -1,0 +1,62 @@
+name: Ambient Sound Processing
+
+on:
+  # To run manually
+  workflow_dispatch:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v4
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -U pip
+        python -m pip install -U setuptools wheel
+        python -m pip install awscli matplotlib scipy m3u8 git+https://github.com/kkroening/ffmpeg-python
+        python -m pip install git+https://github.com/orcasound/ambient-sound-analysis/
+ 
+    - name: Install ffmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install ffmpeg
+
+    # - name: Get latest timestamp
+    #   run: |
+    #     aws --no-sign-request s3 cp s3://streaming-orcasound-net/rpi_bush_point/latest.txt .
+    #     read -r timestamp<latest.txt
+    #     echo "timestamp=$timestamp" >> $GITHUB_ENV
+
+    - name: Set hardcoded "full" timestamp
+      # 1618317018
+      # Tue Apr 13 2021 12:30:18 GMT+0000
+      run: |
+        echo "timestamp=1618317018" >> $GITHUB_ENV
+
+    - uses: actions/cache@v4
+      id: cache
+      with:
+        path: |
+          bush_point/${{ env.timestamp }}/
+        key: bush_point-${{ env.timestamp }}
+
+    - name: Get all files
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        aws --no-sign-request s3 sync s3://streaming-orcasound-net/rpi_bush_point/hls/${{ env.timestamp }}/ bush_point/${{ env.timestamp }}
+        rm -rf bush_point/${{ env.timestamp }}/live2159.ts
+
+    - name: Create spectrograms
+      run: |
+        mkdir -p png/bush_point/${{ env.timestamp }}
+        python orcasound_processing.py bush_point/${{ env.timestamp }} -o png/bush_point/${{ env.timestamp }}
+
+    - name: Upload spectrograms
+      uses: actions/upload-artifact@v4
+      with:
+        name: Spectrograms
+        path: |
+          png/bush_point/${{ env.timestamp }}/*.png
