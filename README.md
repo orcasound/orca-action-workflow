@@ -8,6 +8,14 @@ For introduction to GitHub Actions see [here](https://docs.github.com/en/actions
 
 Orcasound GitHub Actions workflow (located at `.github/workflows/orcasound_processing.yml`) has manual trigger [`dispatch_workflow`](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow). It downloads the full timestamp "directory" from Orcasound AWS bucket (see more [here](https://github.com/orcasound/orcadata/blob/master/access.md)) and processes each file individually. For now you will have to manually change timestamp in the workflow file. If you want to change processing from creating spectrograms to something else look for the loop `for input_wav in sorted(glob.glob("wav/*.wav")):` at the end of the source file (`orcasound_processing.py`).
 
+## Orcasound Ambient Sound Visualization
+
+
+![](img/broadband.png)
+
+
+![](img/psd.png)
+
 # Ocean Observatories Initiative
 
 Ocean Observatories Initiative GitHub Actions workflow (located at `.github/workflows/ooi_processing.yml`) runs at 12:00 UTC every day (`schedule` event trigger). By default it will attempt to download data in 5 minute length chunks for the previous day and create spectrograms for this data, saving spectrograms in the `spectrograms` directory. These spectrograms are then uploaded as artifacts of the run. In addition to scheduled runs, this workflow can be triggered manually through GitHub web interface, GitHub CLI or REST API (see [here](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow)).
