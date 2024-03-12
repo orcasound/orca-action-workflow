@@ -2,7 +2,9 @@ name: Ambient Sound Processing
 
 on:
   # To run manually
-  workflow_dispatch:
+  # workflow_dispatch:
+  push:
+    branches: noise_workflow
 
 jobs:
   process:
