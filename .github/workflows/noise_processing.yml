@@ -3,9 +3,10 @@ name: Ambient Sound Processing
 on:
   # To run manually
   # workflow_dispatch:
-  push:
-    branches: noise_workflow
 
+  schedule:
+    - cron: '0 * * * *'
+    
 jobs:
   process:
     runs-on: ubuntu-latest
