@@ -5,10 +5,10 @@ on:
   # workflow_dispatch:
   schedule:
     - cron: '9 * * * *'
-    
+
   workflow_dispatch:
-  
-    
+
+
 jobs:
   process:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
         python -m pip install orcasound_noise@git+https://github.com/orcasound/ambient-sound-analysis
         python -m pip install kaleido
 
- 
+
     - name: Install ffmpeg
       run: |
         sudo apt-get update
@@ -48,4 +48,3 @@ jobs:
       with:
           commit_message: Commit to Github
           file_pattern: 'img/*.png'
-
