@@ -23,9 +23,7 @@ jobs:
       run: |
         python -m pip install -U pip
         python -m pip install -U setuptools wheel
-        python -m pip install awscli matplotlib scipy m3u8 git+https://github.com/kkroening/ffmpeg-python
-        python -m pip install orcasound_noise@git+https://github.com/orcasound/ambient-sound-analysis
-        python -m pip install kaleido
+        python -m pip install -r reaquirements_noise.txt
 
  
     - name: Install ffmpeg
