@@ -36,54 +36,10 @@ bb_df = pd.read_parquet(broadband_path)
 if not os.path.exists('img'):
    os.makedirs('img')
 
-def plot_spec(psd_df):
-    """
-    This function converts a table of power spectral data, having the columns represent frequency bins and the rows
-    represent time segments, to a spectrogram.
-
-    Args:
-        psd_df: Dataframe of power spectral data.
-
-    Returns: Spectral plot
-    """
-
-    fig = go.Figure(
-        data=go.Heatmap(x=psd_df.index, y=psd_df.columns, z=psd_df.values.transpose(), colorscale='Viridis',
-                        colorbar={"title": 'Magnitude'}))
-    fig.update_layout(
-        title="Hydrophone Power Spectral Density",
-        xaxis_title="Time",
-        yaxis_title="Frequency (Hz)",
-        legend_title="Magnitude"
-    )
-    fig.update_yaxes(type="log")
-    fig.show()
-    return(fig)
-
-def plot_bb(bb_df):
-    """
-    This function plots the broadband levels in relative decibels.
-
-    Args:
-        bb_df: Dataframe of broadband levels.
-
-    Returns: Time series of broadband levels.
-    """
-    plt.figure()
-    plt.plot(bb_df)
-    plt.title('Relative Broadband Levels')
-    plt.xlabel('Time')
-    plt.ylabel('Relative Decibels')
-    plt.xticks(rotation = 45)
-    # plt.show()
-    return(plt.gcf())
-
-
-
+# Create and save psd plot 
 fig = plot_spec(psd_df)
 fig.write_image('img/psd.png')
 
-
-
+# Create and save bb plot
 fig = plot_bb(bb_df)
 fig.savefig('img/broadband.png')
