@@ -6,9 +6,6 @@ on:
   # schedule:
   #  - cron: '9 * * * *'
     
-  workflow_dispatch:
-  
-    
 jobs:
   process:
     runs-on: ubuntu-latest
