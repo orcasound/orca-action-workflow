@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   # schedule:
   #  - cron: '9 * * * *'
-    
+
 jobs:
   process:
     runs-on: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
         python -m pip install -U setuptools wheel
         python -m pip install -r requirements_noise.txt
 
- 
+
     - name: Install ffmpeg
       run: |
         sudo apt-get update
@@ -43,4 +43,3 @@ jobs:
       with:
           commit_message: Commit to Github
           file_pattern: 'img/*.png'
-
