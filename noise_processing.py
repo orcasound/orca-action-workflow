@@ -25,6 +25,7 @@ if __name__ == '__main__':
 # Generate parquet dataframes with noise levels for a time period
 
 now = dt.datetime.now(pytz.timezone('US/Pacific'))
+print(now)
 psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 10), 
                                                           now - dt.timedelta(hours = 8), 
                                                           upload_to_s3=False)
