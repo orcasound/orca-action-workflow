@@ -41,7 +41,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
           commit_message: Commit to Github
-          file_pattern: 'img/broadband.png'
+          file_pattern: 'img/*.png'
 
     - name: Upload as artifact
       uses: actions/upload-artifact@v4
