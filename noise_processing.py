@@ -27,8 +27,8 @@ if __name__ == '__main__':
 now = dt.datetime.now(pytz.timezone('US/Pacific'))
 # now = dt.datetime(2024, 11, 20, 10)
 # now = dt.datetime(2025, 1, 16, 10)
-psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 10), 
-                                                          now - dt.timedelta(hours = 8), 
+psd_path, broadband_path = pipeline.generate_parquet_file(now - dt.timedelta(hours = 2), 
+                                                          now - dt.timedelta(hours = 1), 
                                                           upload_to_s3=False)
 
 # Read the parquet files
