@@ -43,6 +43,7 @@ jobs:
           commit_message: Commit to Github
           commit_user_name: Action Bot
           commit_user_email: bot@example.com 
+          commit_author: Author <actions@github.com>
           file_pattern: 'img/*.png'
 
     - name: Upload as artifact
