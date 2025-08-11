@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '2 * * * *'
-    
+
 jobs:
   process:
     runs-on: ubuntu-latest
@@ -22,12 +22,12 @@ jobs:
       run: |
         pip install -r requirements_noise.txt
 
- 
+
     - name: Install ffmpeg
       run: |
        sudo apt-get update
        sudo apt-get install ffmpeg
-    
+
     - uses: awalsh128/cache-apt-pkgs-action@latest
       with:
         packages: ffmpeg
@@ -42,7 +42,7 @@ jobs:
       with:
           commit_message: Commit to Github
           commit_user_name: Action Bot
-          commit_user_email: bot@example.com 
+          commit_user_email: bot@example.com
           commit_author: Author <actions@github.com>
           file_pattern: 'img/*.png'
 
@@ -56,6 +56,6 @@ jobs:
    #   uses: AnimMouse/setup-rclone@v1
    #   with:
    #     rclone_config: ${{secrets.RCLONE_CONFIG}}
-   #   
+   #
    # - run: |
    #     rclone copy ambient_sound_analysis/img/broadband.png mydrive:rclone_uploads/
