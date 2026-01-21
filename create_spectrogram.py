@@ -31,7 +31,7 @@ def plot_psd(data, samplerate, nfft=256, noverlap=128):
         `nfft`: The number of data points used in each block for the FFT. A power 2 is most efficient.
         `noverlap`: The number of points of overlap between blocks.
     """
-    plt.specgram(data, Fs=samplerate, NFFT=nfft, noverlap=noverlap)
+    plt.specgram(data, Fs=samplerate, NFFT=nfft, noverlap=noverlap, vmin=-200, vmax=100)
     plt.ylabel("Frequency [Hz]")
     cbar = plt.colorbar()
     cbar.set_label("DB")
