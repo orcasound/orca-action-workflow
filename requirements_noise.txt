@@ -2,5 +2,5 @@ matplotlib
 # scipy 
 m3u8 
 git+https://github.com/kkroening/ffmpeg-python
-orcasound_noise@git+https://github.com/orcasound/ambient-sound-analysis
+orcasound_noise@git+https://github.com/orcasound/ambient-sound-analysis@MSDS-2023-main
 kaleido
