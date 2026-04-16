@@ -1,0 +1,63 @@
+name: Scheduled PSD Processing
+
+on:
+  schedule:
+    - cron: "15 * * * *"   # every hour (UTC)
+  workflow_dispatch:
+
+jobs:
+  process-s3-data:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        hydrophone: ['bush_point', 'orcasound_lab', 'port_townsend', 'sunset_bay', 'andrews_bay', 'mast_center', 'point_robinson', 'north_sjc']
+      fail-fast: false
+
+    permissions:
+      contents: write      # REQUIRED to commit back to repo
+      id-token: write      # REQUIRED for AWS OIDC
+      actions: read
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # needed to commit changes
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+          cache-dependency-path: requirements_pipeline.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_pipeline.txt
+          pip uninstall orca-hls-utils -y
+          pip install orca-hls-utils@git+https://github.com/ayushmall0710/orca-hls-utils.git@18e72ed8f81391629ad64462172c56711134c970
+      
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+      
+      - name: Configure AWS
+        run: aws sts get-caller-identity
+      
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: ffmpeg
+
+      - name: Process S3 data
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          python ambient-sound-analysis_scripts/git_action_psd_upload.py --hydrophone ${{ matrix.hydrophone }}
+
