@@ -45,8 +45,8 @@ This workflow runs the ambient-sound-analysis processing pipeline on hydrophone 
 
 ### Rolling ambient calculation workflow
 
-This workflow computes a **rolling ancient ambient baseline** by every day calculating the 5th percentile of the prevous 7 days.  
-It is intended to record ancient ambient as a reference value for converting broadband and PSD values to decibels and track long-term background sound levels. 
+This workflow computes a **rolling ancient ambient baseline** by every day calculating the 5th percentile of the prevous 7 days.
+It is intended to record ancient ambient as a reference value for converting broadband and PSD values to decibels and track long-term background sound levels.
 
 For more information checkout the rolling ambient reference [jupyter notebook](https://github.com/orcasound/ambient-sound-analysis/blob/MSDS-2026-main/notebooks/rolling_ambient_reference.ipynb) in the ambient-sound-analysis repo.
 
@@ -55,7 +55,7 @@ For more information checkout the rolling ambient reference [jupyter notebook](h
 
 ### Ship sound metrics workflow
 
-This workflow calculates **ship sound metrics** from processed acoustic data.  
+This workflow calculates **ship sound metrics** from processed acoustic data.
 It supports ship-noise monitoring by deriving summary metrics over configured time windows.
 
 * script: `ambient-sound-analysis_scripts/git_action_ship_metrics_upload.py`
