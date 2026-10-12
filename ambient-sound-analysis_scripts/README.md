@@ -60,4 +60,3 @@ The purpose of this GitHub Actions workflow is to asynchronously automate the pr
 * Calculate metrics
     - Sound related metrics will be None if there are no sound data between start_time and end_time
 * Upload to S3 and bookmark the last processed time
-

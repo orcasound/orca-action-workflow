@@ -2,13 +2,13 @@ name: Scheduled Ship Metrics Processing
 
 on:
   schedule:
-    - cron: "30 22 * * 1"   # every Monday at 22:30 (UTC)  
+    - cron: "30 22 * * 1"   # every Monday at 22:30 (UTC)
   workflow_dispatch:
 
 jobs:
   process-s3-data:
     runs-on: ubuntu-latest
-    
+
     strategy:
       fail-fast: false
 
@@ -40,7 +40,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_pipeline.txt
-          
+
       - name: Configure AWS
         run: aws sts get-caller-identity
 
@@ -48,4 +48,3 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python ambient-sound-analysis_scripts/git_action_ship_metrics_upload.py
-
