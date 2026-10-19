@@ -8,7 +8,7 @@ on:
 jobs:
   process-s3-data:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         hydrophone: ['bush_point', 'orcasound_lab', 'port_townsend', 'sunset_bay', 'andrews_bay', 'mast_center', 'point_robinson', 'north_sjc']
@@ -43,15 +43,15 @@ jobs:
           pip install -r requirements_pipeline.txt
           pip uninstall orca-hls-utils -y
           pip install orca-hls-utils@git+https://github.com/ayushmall0710/orca-hls-utils.git@18e72ed8f81391629ad64462172c56711134c970
-      
+
       - name: Install ffmpeg
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg
-      
+
       - name: Configure AWS
         run: aws sts get-caller-identity
-      
+
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: ffmpeg
@@ -60,4 +60,3 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python ambient-sound-analysis_scripts/git_action_psd_upload.py --hydrophone ${{ matrix.hydrophone }}
-

@@ -1,4 +1,5 @@
 """Unit tests for various util functions relating to spectrogram creation"""
+
 import os.path
 
 import matplotlib.pyplot as plt
