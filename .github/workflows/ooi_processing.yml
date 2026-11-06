@@ -19,8 +19,8 @@ on:
         required: false
         default: 5.0
   # Run workflow at 12:00 UTC every day
-  schedule:
-  - cron: '0 12 * * *'
+  #schedule:
+  #- cron: '0 12 * * *'
 
 env:
   NODE: ${{ github.event.inputs.node || 'PC01A' }}
