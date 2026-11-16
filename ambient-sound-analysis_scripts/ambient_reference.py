@@ -19,7 +19,6 @@ from zoneinfo import ZoneInfo
 
 import boto3
 import polars as pl
-
 from orcasound_noise.analysis.partitioned_accessor import PartitionedAccessor
 from orcasound_noise.utils import Hydrophone
 
@@ -76,8 +75,9 @@ def write_to_s3(s3_client, hydrophone: Hydrophone, df: pl.DataFrame) -> None:
     print(f"  Wrote {len(df)} rows to s3://{bucket}/{key}")
 
 
-
-def load_broadband(hydrophone: Hydrophone, start: dt.datetime, end: dt.datetime) -> pl.DataFrame | None:
+def load_broadband(
+    hydrophone: Hydrophone, start: dt.datetime, end: dt.datetime
+) -> pl.DataFrame | None:
     """Load broadband data for a hydrophone over a date range using PartitionedAccessor."""
     try:
         accessor = PartitionedAccessor(hydrophone, start, end)
@@ -158,8 +158,10 @@ def process_hydrophone(
     if row is None:
         print(f"  No data found for {name}, skipping")
         return 0
-    print(f"  {tomorrow}: bb={row.bb_ref:.1f} comm={row.comm_bb_ref:.1f} "
-          f"ship={row.ship_bb_ref:.1f} dB")
+    print(
+        f"  {tomorrow}: bb={row.bb_ref:.1f} comm={row.comm_bb_ref:.1f} "
+        f"ship={row.ship_bb_ref:.1f} dB"
+    )
 
     new_df = pl.DataFrame([asdict(row)]).with_columns(
         pl.col("date").cast(pl.Date),
